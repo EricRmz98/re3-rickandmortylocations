@@ -20,7 +20,7 @@ const ResidentInfo = ({ resident }) => {
             <img src={residentData.image} alt="" />
 
             <div className='resident-card-name'>
-                <h3 className='accent-txt marginless'>{residentData.name}</h3>
+                <h3 className='accent-txt marginless weightless'>{residentData.name}</h3>
             </div>
             
             <hr className='mb-1' />
