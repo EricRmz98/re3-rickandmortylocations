@@ -10,13 +10,12 @@ function App() {
 
   const [location, setLocation] = useState({});
   const [search, setSearch] = useState('');
-
   const searchBar = useRef('');
 
   const getRandomLocation = () => {
     axios
-    .get(`https://rickandmortyapi.com/api/location/${Math.floor(Math.random() * 126) + 1}`)
-    .then(res => setLocation(res.data))
+      .get(`https://rickandmortyapi.com/api/location/${Math.floor(Math.random() * 126) + 1}`)
+      .then(res => setLocation(res.data))
 
     searchBar.current.value = '';
   }
@@ -24,17 +23,19 @@ function App() {
   useEffect(() => {
     getRandomLocation();
   }, [])
-  
+
   const getSearchLocation = () => {
-    if (search != "") {
+    if (search != "" && search < 127 && search > 0) {
       axios
         .get(`https://rickandmortyapi.com/api/location/${search}`)
         .then(res => setLocation(res.data));
 
       searchBar.current.value = '';
+    } else {
+      alert('Location id must be a number between 1 and 126')
     }
   }
-  
+
   return (
     <div>
       <div className='header'>
