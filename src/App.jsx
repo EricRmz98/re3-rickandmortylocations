@@ -20,6 +20,16 @@ function App() {
     searchBar.current.value = '';
   }
 
+  const [page, setPage] = useState(1);
+  const pageEnd = 12 * page;
+  const pageStart = pageEnd - 12;
+  const residentsPaginated = location.residents?.slice(pageStart, pageEnd);
+  const lastPage = Math.ceil(location.residents?.length / 12);
+  const pages = [];
+  for (let i = 1; i <= lastPage; i++) {
+    pages.push(i);
+  }
+
   useEffect(() => {
     getRandomLocation();
   }, [])
@@ -59,12 +69,48 @@ function App() {
           </button>
         </div>
         <div>
-          <button className='random-btn' onClick={getRandomLocation}><i className="accent-txt fa-solid fa-arrows-rotate"></i> Random location</button>
+          <button
+            className='random-btn'
+            onClick={getRandomLocation}>
+            <i className="accent-txt fa-solid fa-arrows-rotate"></i> Random location
+          </button>
         </div>
       </div>
 
       <LocationInfo location={location} />
-      <ResidentList residents={location.residents} />
+      <ResidentList residents={residentsPaginated} />
+
+      {lastPage <= 1 ? (
+        <></>
+      ) : (
+        <div className='pages-container'>
+          <button
+            className='next-prev-page-btn'
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+          >
+            <i className="fa-solid fa-chevron-left"></i>
+          </button>
+
+          {pages.map(pageNumber => (
+            <button
+              className={pageNumber === page ? 'current-page-btn' : 'page-number-btn'}
+              key={pageNumber}
+              onClick={() => setPage(pageNumber)}
+            >
+              <b>{pageNumber}</b>
+            </button>
+          ))}
+
+          <button
+            className='next-prev-page-btn'
+            onClick={() => setPage(page + 1)}
+            disabled={page === lastPage}
+          >
+            <i className="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      )}
     </div>
   )
 }

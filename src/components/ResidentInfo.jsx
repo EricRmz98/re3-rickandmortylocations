@@ -17,12 +17,14 @@ const ResidentInfo = ({ resident }) => {
 
     return (
         <div className='resident-card'>
-            <img src={residentData.image} alt="" />
+            <div className='img-container'>
+                <img src={residentData.image} alt="" />
+            </div>
 
             <div className='resident-card-name'>
                 <h3 className='accent-txt marginless weightless'>{residentData.name}</h3>
             </div>
-            
+
             <hr className='mb-1' />
             <p className='muted-txt marginless mb-1px'>Species</p>
             <p className='marginless mb-1'>{residentData.species}</p>
@@ -32,7 +34,7 @@ const ResidentInfo = ({ resident }) => {
             <p className='marginless'>{residentData.episode?.length}</p>
 
             <div className='resident-status'>
-                <ResidentStatus status={residentData.status}/>
+                <ResidentStatus status={residentData.status} />
             </div>
 
         </div>

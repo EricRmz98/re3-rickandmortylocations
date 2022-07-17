@@ -151,3 +151,49 @@ html {
 .no-residents h3{
   font-size: 225px;
 }
+
+button:hover{
+  cursor: pointer;
+}
+
+input:focus{
+  outline: none;
+}
+
+.page-number-btn{
+  background-color: #062226;
+  border: 0;
+  color: white;
+  padding: .6rem 0;
+  margin: 0 .1rem;
+  width: 2rem;
+}
+
+.pages-container{
+  display: flex;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.next-prev-page-btn{
+  background-color: #062226;
+  border: 0;
+  color: greenyellow;
+  padding: .6rem 0;
+  margin: 0 .1rem;
+  width: 2rem;
+}
+
+.current-page-btn{
+  background-color: greenyellow;
+  border: 0;
+  color: #062226;
+  padding: .6rem 0;
+  margin: 0 .1rem;
+  width: 2rem;
+}
+
+.img-container{
+  width: 258px;
+  height: 258px;
+}
