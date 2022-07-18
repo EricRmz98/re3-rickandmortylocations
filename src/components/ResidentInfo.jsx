@@ -7,7 +7,6 @@ import ResidentStatus from './ResidentStatus';
 const ResidentInfo = ({ resident }) => {
 
     const [residentData, setResidentData] = useState({})
-    const [statusColor, setStatusColor] = useState('')
 
     useEffect(() => {
         axios

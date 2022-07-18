@@ -63,6 +63,28 @@ html {
   position: relative;
 }
 
+.suggestions-container{
+  position: absolute;
+  left: 2.5rem;
+  top: calc(5.5rem + 2px);
+  background-color: white;
+  width: calc(27.1rem + 2px);
+  color: #7E7E7E;
+  border-radius: 1rem 0 0 0;
+  max-height: 11rem;
+  overflow: auto;
+}
+
+.suggestion{
+  padding: .25rem 0 .25rem 1rem;
+}
+
+.suggestion:hover{
+  background-color: greenyellow;
+  color: #062226;
+  cursor: pointer;
+}
+
 .location-info {
   display: flex;
   justify-content: space-between;

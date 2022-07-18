@@ -10,16 +10,7 @@ function App() {
 
   const [location, setLocation] = useState({});
   const [search, setSearch] = useState('');
-  const searchBar = useRef('');
-
-  const getRandomLocation = () => {
-    axios
-      .get(`https://rickandmortyapi.com/api/location/${Math.floor(Math.random() * 126) + 1}`)
-      .then(res => setLocation(res.data))
-
-    searchBar.current.value = '';
-  }
-
+  const [suggestions, setSuggestions] = useState([]);
   const [page, setPage] = useState(1);
   const pageEnd = 12 * page;
   const pageStart = pageEnd - 12;
@@ -30,21 +21,43 @@ function App() {
     pages.push(i);
   }
 
+  const clearInput = () => setSearch('');
+  const clearPage = () => setPage(1);
+
+
+  const getRandomLocation = () => {
+    axios
+      .get(`https://rickandmortyapi.com/api/location/${Math.floor(Math.random() * 126) + 1}`)
+      .then(res => {
+        setLocation(res.data);
+        clearInput();
+        clearPage();
+      });
+  }
+
+  const getLocationById = id => {
+    if (search !== '') {
+      axios
+        .get(`https://rickandmortyapi.com/api/location/${id}`)
+        .then(res => {
+          setLocation(res.data);
+          clearInput();
+          clearPage();
+        });
+    }
+  }
+
+  useEffect(() => {
+    if (search !== '') {
+      axios
+        .get(`https://rickandmortyapi.com/api/location/?name=${search}`)
+        .then(res => setSuggestions(res.data.results));
+    }
+  }, [search])
+
   useEffect(() => {
     getRandomLocation();
   }, [])
-
-  const getSearchLocation = () => {
-    if (search != "" && search < 127 && search > 0) {
-      axios
-        .get(`https://rickandmortyapi.com/api/location/${search}`)
-        .then(res => setLocation(res.data));
-
-      searchBar.current.value = '';
-    } else {
-      alert('Location id must be a number between 1 and 126')
-    }
-  }
 
   return (
     <div>
@@ -55,16 +68,17 @@ function App() {
       <div className='search'>
         <div>
           <input
-            ref={searchBar}
             className='search-in'
             type="text"
-            placeholder='Search location id'
+            placeholder='Search location name'
             onChange={e => setSearch(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { getSearchLocation(); } }}
+            onKeyDown={e => { if (e.key === 'Enter') { getLocationById(suggestions[0].id); } }}
+            value={search}
           />
           <button
             className='search-btn'
-            onClick={getSearchLocation}>
+            onClick={() => getLocationById(suggestions[0].id)}
+          >
             <i className="accent-txt fa-solid fa-magnifying-glass"></i> Search
           </button>
         </div>
@@ -74,6 +88,22 @@ function App() {
             onClick={getRandomLocation}>
             <i className="accent-txt fa-solid fa-arrows-rotate"></i> Random location
           </button>
+
+          {search === '' ? (
+            <></>
+          ) : (
+            <div className='suggestions-container'>
+              {suggestions.map(suggestion => (
+                <div
+                  key={suggestion.id}
+                  className='suggestion'
+                  onClick={() => getLocationById(suggestion.id)}
+                >
+                  <p className='marginless'>{suggestion.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
